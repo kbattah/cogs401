@@ -2,7 +2,7 @@ from googleapiclient.discovery import build
 import pandas as pd
 
 #GLOBAL VARS
-maxResults = 20 #want 40 videos per keyword, 10 on each page visited
+maxResults = 30 #want 40 videos per keyword, 10 on each page visited
 category = [] # Data to be stored
 
 
@@ -15,8 +15,9 @@ API_KEY5 = "AIzaSyD5igxO2TntNPXzaWe2EljzbRzATx_vRf8"
 API_KEY6 ="AIzaSyCBLJcm3WV7n-de3tns92yA9qTF8BZUvfQ"
 API_KEY7 = "AIzaSyAS9eTgOEnOJ2GlJbbqm_0bR1onuRQjTHE"
 API_KEY8 = "AIzaSyAg6dxTbCfUlEFyKffbdQ-JsrddL90uZus"
+
 #Alternate keys to ensure we don't go over quota
-youtube_api = build('youtube','v3', developerKey = API_KEY8)
+youtube_api = build('youtube','v3', developerKey = API_KEY1)
 
 #Reads all keywords from label file
 def read_keywords_from_file(file_path):
@@ -39,6 +40,7 @@ no_of_samples_con = maxResults * len(con_keywords)
 pro_titles = []
 pro_descriptions = []
 pro_ids = []
+pro = []
 
 for keyword in pro_keywords:
     req = youtube_api.search().list(q=keyword, part='snippet', type='video', maxResults = maxResults)
@@ -50,6 +52,7 @@ for keyword in pro_keywords:
             pro_descriptions.append(res['items'][i]['snippet']['description'])
             pro_ids.append(res['items'][i]['id']['videoId'])
             category.append(keyword)
+            pro.append('pro')
 
         if('nextPageToken' in res):
             next_page_token = res['nextPageToken']
@@ -63,9 +66,10 @@ for keyword in pro_keywords:
 con_titles = []
 con_descriptions = []
 con_ids = []
+con = []
 
 #Alternate keys to ensure we don't go over quota
-youtube_api = build('youtube','v3', developerKey = API_KEY8)
+youtube_api = build('youtube','v3', developerKey = API_KEY2)
 
 for keyword in con_keywords:
     req = youtube_api.search().list(q=keyword, part='snippet', type='video', maxResults=maxResults)
@@ -77,6 +81,7 @@ for keyword in con_keywords:
             con_descriptions.append(res['items'][i]['snippet']['description'])
             con_ids.append(res['items'][i]['id']['videoId'])
             category.append(keyword)
+            con.append('con')
 
         if('nextPageToken' in res):
             next_page_token = res['nextPageToken']
@@ -84,36 +89,11 @@ for keyword in con_keywords:
             res = req.execute()
         else:
             break
-"""
-# Science Data
-science_titles = []
-science_descriptions = []
-science_ids = []
-
-next_page_token = None
-req = youtube_api.search().list(q='robotics', part='snippet', type='video', maxResults = 50)
-res = req.execute()
-while(len(science_titles)<no_of_samples):
-    if(next_page_token is not None):
-        req = youtube_api.search().list(q='robotics', part='snippet', type='video', maxResults = 50, pageToken=next_page_token)
-        res = req.execute()
-    for i in range(len(res['items'])):
-        science_titles.append(res['items'][i]['snippet']['title'])
-        science_descriptions.append(res['items'][i]['snippet']['description'])
-        science_ids.append(res['items'][i]['id']['videoId'])
-        category.append('science and technology')
-
-    if('nextPageToken' in res):
-        next_page_token = res['nextPageToken']
-    else:
-        break
-
-
-"""
 
 # Construct Dataset
 final_titles = pro_titles + con_titles
 final_descriptions = pro_descriptions + con_descriptions
 final_ids = pro_ids + con_ids
-data = pd.DataFrame({'Video Id': final_ids, 'Title': final_titles, 'Description': final_descriptions, 'Category': category})
-data.to_csv('Collected_data_raw.csv')
+side = pro + con #just keeps count of which videos are pro and which are con
+data = pd.DataFrame({'Video Id': final_ids, 'Title': final_titles, 'Description': final_descriptions, 'Category': category, 'Pro_or_Con': side})
+data.to_csv('updated_collected_data_raw.csv')
