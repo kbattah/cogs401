@@ -1,12 +1,8 @@
 # YouTube Recommendation Eating Disorder Content Analysis
 
 
-This study investigates the impact of recommendation systems on information
-dissemination regarding eating disorders, with a specific emphasis on YouTube.
+This study investigates the impact of recommendation systems on information dissemination regarding eating disorders, with a specific emphasis on YouTube. The research integrates various methodologies, including web scraping, analysis of recommendation algorithms, and survey experiments, to examine how YouTube may inadvertently foster environments conducive to pro-eating disorder (pro-ED) and anti-recovery content dissemination. A significant focus is placed on understanding the behavioral patterns and perceptions of users aged 19 to 32, a demographic particularly vulnerable to disordered eating and body image concerns.
 
-This research employs web scraping, bots traversing recommen-
-dation expansion, as well as a survey experiments to provide a comprehensive
-assessment of whether YouTube’s recommendation system may inadvertently
-favor pro-eating disorder/anti-recovery content. A data set of lifestyle channels
-categorized by their stance on eating disorders is utilized to show potential
-biases in YouTube’s recommendation system.
+The study reveals that user engagement with YouTube, especially the frequency of use and interaction with the platform’s recommendations, is closely linked to their perceptions and behaviors related to eating disorders and body image. Machine learning models, including Naive Bayes and LSTM, were employed to classify content into pro-ED and anti-eating disorder (con-ED) categories. The results indicate a nuanced complexity in text classification for such social issues, with simpler models outperforming more complex ones, underscoring the need for finer model tuning and larger datasets.
+
+The study also proposes the implementation of advanced text classification systems using the Snorkel framework to enhance context-aware content moderation. This research contributes to the understanding of social media’s impact on mental health and underscores the importance of informed policy-making in the digital landscape.
